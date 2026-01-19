@@ -1,0 +1,49 @@
+# ============================================================
+# SentimentOps - Threshold Configuration
+# Baseline stabilito: 2026-01-19
+# ============================================================
+
+# Baseline globale (test set completo, n=12,284)
+baseline:
+  model_id: "cardiffnlp/twitter-roberta-base-sentiment-latest"
+  dataset: "tweet_eval/sentiment"
+  split: "test"
+  num_samples: 12284
+  eval_accuracy: 0.7218
+  eval_macro_f1: 0.7240
+  eval_macro_recall: 0.7349
+  established_date: "2026-01-19"
+  run_id: "b351916ee9fa4c0484508b2f19f78c41"
+
+# Golden set (regression sentinel, n=100)
+golden:
+  size: 100
+  seed: 42
+  baseline_accuracy: 0.6600
+  baseline_macro_f1: 0.6720
+  delta: 0.02
+  # min_macro_f1 = baseline_macro_f1 - delta
+  min_macro_f1: 0.6520
+  run_id: "bbd7385e8587497d894160641536ddfc"
+
+# CI gates (smoke tests)
+ci:
+  smoke_num_samples: 32
+  max_smoke_time_sec: 30
+  min_smoke_accuracy: 0.50
+
+# Retraining (light strategy)
+retraining:
+  enabled: true
+  strategy: "light"
+  subset_size: 2000
+  drift_threshold_f1: 0.05
+  min_samples_for_retrain: 1000
+
+# Paths (root-relative)
+paths:
+  artifacts_dir: "artifacts"
+  golden_dir: "artifacts/golden"
+  golden_indices: "artifacts/golden/golden_indices.txt"
+  golden_ground_truth: "artifacts/golden/golden_set.csv"
+  golden_predictions_baseline: "artifacts/golden/predictions/golden_predictions_baseline.csv"
